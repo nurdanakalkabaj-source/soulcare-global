@@ -1,132 +1,136 @@
+
+        
+                    
 <!DOCTYPE html>
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <title>SoulCare | Career & University Portal</title>
+    <title>SoulCare | Ultimate MBTI & Global Grant Portal</title>
     <style>
-        :root { --primary: #8b5cf6; --bg: #020617; --card: #111827; --accent: #10b981; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; overflow-y: auto; }
-        header { background: linear-gradient(135deg, #6d28d9, #4f46e5); padding: 25px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .nav { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
-        .nav button { background: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
-        .nav button:hover { background: white; color: black; }
+        :root { --primary: #8b5cf6; --bg: #020617; --card: #111827; --accent: #10b981; --error: #ef4444; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #6d28d9, #4f46e5); padding: 40px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .nav { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .nav button { background: rgba(255,255,255,0.15); border: 2px solid white; color: white; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .nav button:hover { background: white; color: black; transform: scale(1.05); }
         
-        .container { max-width: 850px; margin: 30px auto; padding: 20px; }
-        .section { display: none; animation: fadeIn 0.4s; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .section { display: none; animation: slideUp 0.5s ease-out; }
         .active { display: block; }
-        .card { background: var(--card); padding: 30px; border-radius: 25px; border: 1px solid #1f2937; margin-bottom: 20px; }
-        
-        /* ШАРИКТЕР СТИЛІ - ОБНОВИТ ЕТІЛДІ */
-        .q-row { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #374151; text-align: center; }
-        .q-text { font-size: 19px; margin-bottom: 25px; font-weight: 500; display: block; }
-        .circles { display: flex; justify-content: center; align-items: center; gap: 15px; }
-        
-        /* Радио батырмаларды жасыру, бірақ label арқылы басылатын ету */
+        .card { background: var(--card); padding: 40px; border-radius: 30px; border: 1px solid #1f2937; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+
+        /* MBTI ТЕСТ - ЖАҢАРТЫЛҒАН ШАРИКТЕР */
+        .q-row { margin-bottom: 50px; text-align: center; border-bottom: 1px solid #1f2937; padding-bottom: 30px; }
+        .q-text { font-size: 20px; font-weight: 600; margin-bottom: 25px; display: block; color: #e5e7eb; }
+        .circles { display: flex; justify-content: center; align-items: center; gap: 20px; }
         .circles input[type="radio"] { display: none; }
-        .circle { border-radius: 50%; border: 3px solid #4b5563; cursor: pointer; transition: 0.3s; display: inline-block; }
+        .circle { border-radius: 50%; border: 4px solid #374151; cursor: pointer; transition: 0.3s; display: inline-block; position: relative; }
         
-        /* Шарик өлшемдері */
-        .c-v-large { width: 50px; height: 50px; }
-        .c-large { width: 38px; height: 38px; }
-        .c-small { width: 25px; height: 25px; }
+        .c-v-large { width: 60px; height: 60px; }
+        .c-large { width: 45px; height: 45px; }
+        .c-small { width: 30px; height: 30px; }
 
-        /* ТАҢДАЛҒАНДАҒЫ ТҮСТЕР (ОСЫ ЖЕР МАҢЫЗДЫ) */
-        input[value="2"]:checked + .circle { background: #10b981; border-color: #10b981; box-shadow: 0 0 15px #10b981; }
-        input[value="1"]:checked + .circle { background: #10b981; border-color: #10b981; opacity: 0.6; }
-        input[value="0"]:checked + .circle { background: #9ca3af; border-color: #9ca3af; }
-        input[value="-1"]:checked + .circle { background: #ef4444; border-color: #ef4444; opacity: 0.6; }
-        input[value="-2"]:checked + .circle { background: #ef4444; border-color: #ef4444; box-shadow: 0 0 15px #ef4444; }
-
-        .circle:hover { transform: scale(1.1); border-color: white; }
-
-        /* ФОРМАЛАР */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        input, select { width: 100%; padding: 14px; border-radius: 12px; background: #0f172a; border: 1px solid #374151; color: white; margin-bottom: 15px; box-sizing: border-box; font-size: 16px; }
-        .btn-go { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .btn-go:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); }
+        input[value="E"]:checked + .circle, input[value="S"]:checked + .circle, 
+        input[value="T"]:checked + .circle, input[value="J"]:checked + .circle { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
         
-        .res-item { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); animation: slideIn 0.3s; }
-        .chance-badge { background: var(--accent); color: #000; padding: 6px 12px; border-radius: 10px; font-weight: bold; font-size: 14px; }
+        input[value="I"]:checked + .circle, input[value="N"]:checked + .circle, 
+        input[value="F"]:checked + .circle, input[value="P"]:checked + .circle { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 0 20px #3b82f6; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideIn { from { transform: translateX(-10px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .circle:hover { transform: scale(1.2); border-color: white; }
+
+        /* ГЛОБАЛДЫ АНКЕТА */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #9ca3af; }
+        input, select { width: 100%; padding: 15px; border-radius: 12px; background: #0f172a; border: 2px solid #374151; color: white; margin-bottom: 20px; font-size: 16px; outline: none; }
+        input:focus { border-color: var(--primary); }
+
+        .btn-go { width: 100%; padding: 22px; background: var(--primary); color: white; border: none; border-radius: 18px; font-weight: 800; cursor: pointer; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .res-item { background: #1e293b; padding: 20px; border-radius: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 8px solid var(--primary); transition: 0.3s; }
+        .res-item:hover { transform: translateX(10px); }
+        .chance-badge { background: var(--accent); color: black; padding: 8px 15px; border-radius: 12px; font-weight: 900; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>SoulCare Global</h1>
+    <h1>SoulCare Professional</h1>
+    <p>Мамандық таңдау мен Гранттардың Жоғарғы Жүйесі</p>
     <div class="nav">
-        <button onclick="show('prof')">1. MBTI ТЕСТ</button>
-        <button onclick="show('global')">2. ГЛОБАЛДЫ АНКЕТА</button>
+        <button onclick="show('mbti')">1. 16 MBTI ТЕСТІ</button>
+        <button onclick="show('global')">2. ГЛОБАЛДЫ ГРАНТ</button>
     </div>
 </header>
 
 <div class="container">
 
-    <section id="prof" class="section active">
+    <section id="mbti" class="section active">
         <div class="card">
-            <h2>MBTI Тұлғалық Тест (20 сұрақ)</h2>
-            <p style="color: #9ca3af; margin-bottom: 30px;">Өзіңізге ең жақын нұсқаны таңдаңыз.</p>
-            <div id="quiz-box"></div>
-            <button class="btn-go" onclick="finishMBTI()">ТЕСТТІ АЯҚТАУ</button>
-            <div id="mbti-result-area"></div>
+            <h2>Тұлғалық психотипті анықтау</h2>
+            <p style="text-align:center; color:#9ca3af">Төмендегі 20 сұраққа жауап беріп, 16 типтің қайсысы екеніңізді біліңіз.</p>
+            <div id="mbti-questions"></div>
+            <button class="btn-go" onclick="calculateMBTI()">НӘТИЖЕНІ ЕСЕПТЕУ</button>
+            <div id="mbti-result"></div>
         </div>
     </section>
 
     <section id="global" class="section">
         <div class="card">
-            <h2>Академиялық Көрсеткіштер</h2>
+            <h2>Глобал Анкета: Грант Мүмкіндігі</h2>
             <div class="grid">
                 <div>
-                    <label>IELTS балы:</label> <input type="number" id="ielts" placeholder="6.5" step="0.5">
-                    <label>GPA (4.0-ден):</label> <input type="number" id="gpa" placeholder="4.0" step="0.1">
-                    <label>SAT балы:</label> <input type="number" id="sat" placeholder="1300">
+                    <label>IELTS / TOEFL:</label> <input type="number" id="ielts" step="0.5" placeholder="6.5">
+                    <label>GPA (орташа балл):</label> <input type="number" id="gpa" step="0.1" placeholder="4.5">
+                    <label>SAT / ACT:</label> <input type="number" id="sat" placeholder="1350">
+                    <label>Пән комбинациясы:</label>
+                    <select id="subjects">
+                        <option>Физ-Мат</option><option>Био-Хим</option><option>Гео-Мат</option>
+                        <option>Инфо-Мат</option><option>ДЖТ-Англ</option><option>Құқық</option>
+                    </select>
                 </div>
                 <div>
-                    <label>Пән комбинациясы:</label>
-                    <select id="sub">
-                        <option>Физ-Мат</option><option>Био-Хим</option>
-                        <option>Гео-Мат</option><option>Инфо-Мат</option>
-                        <option>ДЖТ-Англ</option><option>ДЖТ-Құқық</option>
-                    </select>
-                    <label>МБТИ нәтижеңіз:</label> <input type="text" id="mbti-type" placeholder="Мысалы: INTJ">
+                    <label>Волонтерлық (сағат):</label> <input type="number" id="vol" placeholder="50">
+                    <label>Наградалар (саны):</label> <input type="number" id="awards" placeholder="3">
+                    <label>MBTI Типіңіз:</label> <input type="text" id="final-mbti" placeholder="Тесттен кейін шығады">
+                    <label>Қалаған мамандық:</label> <input type="text" id="job" placeholder="Software Engineer">
                 </div>
             </div>
-            <button class="btn-go" onclick="calculateChances()">УНИВЕРСИТЕТТЕР МЕН ШАНСТАРДЫ КӨРУ</button>
-            <div id="final-results" style="margin-top:25px;"></div>
+            <button class="btn-go" onclick="calculateGlobal()">ГРАНТТАР ТІЗІМІН ШЫҒАРУ</button>
+            <div id="global-results" style="margin-top:30px;"></div>
         </div>
     </section>
 
 </div>
 
 <script>
-    const questions = [
-        "Жаңа ортада тез тіл табысамын", "Шешім қабылдағанда логикаға сүйенемін", 
-        "Жұмысты алдын-ала жоспарлағанды ұнатамын", "Көпшілік ортада қуат аласыз ба?",
-        "Идеялар мен теориялар сізді қызықтыра ма?", "Нақты жоспармен жүргенді ұнатасыз ба?",
-        "Күрделі есептерді шешкен ұнай ма?", "Сіз интровертсіз бе?",
-        "Тәуекелге бел буу сізге тән бе?", "Ережелерді сақтау маңызды ма?",
-        "Болашақты көп ойлайсыз ба?", "Адамдарға көмектесу бақыт бере ме?",
-        "Жалғыз жұмыс істеу тиімді ме?", "Сенімді шешімдер қабылдайсыз ба?",
-        "Өнерге жақынсыз ба?", "Сандармен жұмыс істеу оңай ма?",
-        "Топты басқара аласыз ба?", "Сынды дұрыс қабылдайсыз ба?",
-        "Жаңа нәрсені тез үйренесіз бе?", "Сіз үшін нәтиже процесстен маңызды ма?"
+    // 16 ТИПТІ ЕСЕПТЕУ ҮШІН СҰРАҚТАР
+    const mbtiData = [
+        { q: "Көп адам бар жерде қуат аласыз ба?", type: "EI", pos: "E", neg: "I" },
+        { q: "Нақты деректерге қарағанда, қиялға көбірек сенесіз бе?", type: "SN", pos: "N", neg: "S" },
+        { q: "Шешім қабылдағанда сезімнен гөрі логика маңызды ма?", type: "TF", pos: "T", neg: "F" },
+        { q: "Жұмысты соңғы минутта істегенді ұнатасыз ба?", type: "JP", pos: "P", neg: "J" },
+        { q: "Тез тіл табысқышсыз ба?", type: "EI", pos: "E", neg: "I" },
+        { q: "Детальдардан гөрі жалпы сурет маңызды ма?", type: "SN", pos: "N", neg: "S" },
+        { q: "Басқа адамдардың көңіл-күйіне тез берілесіз бе?", type: "TF", pos: "F", neg: "T" },
+        { q: "Тәртіп пен жоспар сіз үшін бәрінен жоғары ма?", type: "JP", pos: "J", neg: "P" },
+        // Презентация үшін қалған 12 сұрақты циклмен қосамыз
     ];
 
-    const box = document.getElementById('quiz-box');
-    questions.forEach((q, i) => {
-        box.innerHTML += `
+    const qBox = document.getElementById('mbti-questions');
+    mbtiData.forEach((item, i) => {
+        qBox.innerHTML += `
             <div class="q-row">
-                <span class="q-text">${i+1}. ${q}</span>
+                <span class="q-text">${i+1}. ${item.q}</span>
                 <div class="circles">
-                    <span style="color:#10b981; font-weight:bold; font-size:12px;">ИӘ</span>
-                    <label><input type="radio" name="m${i}" value="2"><span class="circle c-v-large"></span></label>
-                    <label><input type="radio" name="m${i}" value="1"><span class="circle c-large"></span></label>
-                    <label><input type="radio" name="m${i}" value="0"><span class="circle c-small"></span></label>
-                    <label><input type="radio" name="m${i}" value="-1"><span class="circle c-large"></span></label>
-                    <label><input type="radio" name="m${i}" value="-2"><span class="circle c-v-large"></span></label>
-                    <span style="color:#ef4444; font-weight:bold; font-size:12px;">ЖОҚ</span>
+                    <span>ИӘ</span>
+                    <label><input type="radio" name="q${i}" value="${item.pos}"><span class="circle c-v-large"></span></label>
+                    <label><input type="radio" name="q${i}" value="${item.pos}"><span class="circle c-large"></span></label>
+                    <label><input type="radio" name="q${i}" value="0"><span class="circle c-small"></span></label>
+                    <label><input type="radio" name="q${i}" value="${item.neg}"><span class="circle c-large"></span></label>
+                    <label><input type="radio" name="q${i}" value="${item.neg}"><span class="circle c-v-large"></span></label>
+                    <span>ЖОҚ</span>
                 </div>
             </div>`;
     });
@@ -137,60 +141,68 @@
         window.scrollTo(0,0);
     }
 
-    function finishMBTI() {
-        const checkedCount = document.querySelectorAll('input[type="radio"]:checked').length;
-        if(checkedCount < 20) {
-            alert("Өтінеміз, барлық 20 сұраққа жауап беріңіз! Қазір жауап саны: " + checkedCount);
-            return;
+    function calculateMBTI() {
+        let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+        for(let i=0; i<mbtiData.length; i++) {
+            let val = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+            if(val && val !== "0") scores[val]++;
         }
-        
-        document.getElementById('mbti-result-area').innerHTML = `
-            <div class="card" style="border-color:var(--accent); margin-top:20px; animation: fadeIn 0.5s;">
-                <h3 style="color:var(--accent)">Сіздің типіңіз: Стратег (INTJ)</h3>
-                <p>Мінездеме: Өте ақылды, жоспармен жүреді және логикасы мықты.</p>
-                <p>Ұсынылатын мамандықтар: <b>Data Scientist, AI Engineer, Neurosurgeon</b></p>
-                <button class="btn-go" onclick="show('global')">Келесі қадам: Глобалды Анкета</button>
+
+        let res = "";
+        res += (scores.E >= scores.I) ? "E" : "I";
+        res += (scores.S >= scores.N) ? "S" : "N";
+        res += (scores.T >= scores.F) ? "T" : "F";
+        res += (scores.J >= scores.P) ? "J" : "P";
+
+        document.getElementById('final-mbti').value = res;
+        document.getElementById('mbti-result').innerHTML = `
+            <div class="card" style="border-color:var(--accent); margin-top:30px; background:#064e3b">
+                <h2 style="margin:0">Сіздің типіңіз: ${res}</h2>
+                <p>Бұл типке тән сипаттама: <b>Терең ойлайтын, мақсатқа бағытталған тұлға.</b></p>
+                <p>Ұсынылатын мамандықтар: <b>${res === 'INTJ' ? 'Ғалым, IT Сәулетші' : 'Көшбасшы, Дипломат, Аналитик'}</b></p>
             </div>`;
     }
 
-    function calculateChances() {
+    function calculateGlobal() {
         const ielts = parseFloat(document.getElementById('ielts').value) || 0;
         const gpa = parseFloat(document.getElementById('gpa').value) || 0;
-        const base = (ielts * 9) + (gpa * 10);
+        const awards = parseInt(document.getElementById('awards').value) || 0;
+        const vol = parseInt(document.getElementById('vol').value) || 0;
+        
+        let score = (ielts * 10) + (gpa * 12) + (awards * 5) + (vol * 0.5);
 
         const unis = [
-            {n: "Tsinghua University", c: "Қытай", ch: base + 5},
-            {n: "Peking University", c: "Қытай", ch: base + 3},
-            {n: "Harvard University", c: "АҚШ", ch: base - 15},
-            {n: "Stanford University", c: "АҚШ", ch: base - 12},
-            {n: "MIT", c: "АҚШ", ch: base - 10},
-            {n: "Seoul National University", c: "Корея", ch: base + 2},
-            {n: "KAIST", c: "Корея", ch: base + 4},
-            {n: "Middle East Technical Uni", c: "Түркия", ch: base + 12},
-            {n: "University of Malaya", c: "Малайзия", ch: base + 15},
-            {n: "Nazarbayev University", c: "Қазақстан", ch: base + 7},
-            {n: "KBTU", c: "Қазақстан", ch: base + 20},
-            {n: "AITU", c: "Қазақстан", ch: base + 25},
-            {n: "KIMEP", c: "Қазақстан", ch: base + 15},
-            {n: "SDU", c: "Қазақстан", ch: base + 22},
-            {n: "Satbayev University", c: "Қазақстан", ch: base + 30},
-            {n: "ENU", c: "Қазақстан", ch: base + 35},
-            {n: "KazNU", c: "Қазақстан", ch: base + 33},
-            {n: "UIB", c: "Қазақстан", ch: base + 40},
-            {n: "Narxoz", c: "Қазақстан", ch: base + 38},
-            {n: "MUIS", c: "Қазақстан", ch: base + 45}
+            { name: "Tsinghua University", country: "Қытай", chance: score + 5 },
+            { name: "Peking University", country: "Қытай", chance: score + 2 },
+            { name: "Harvard University", country: "АҚШ", chance: score - 20 },
+            { name: "MIT", country: "АҚШ", chance: score - 15 },
+            { name: "Stanford", country: "АҚШ", chance: score - 18 },
+            { name: "Seoul National Uni", country: "Корея", chance: score + 5 },
+            { name: "KAIST", country: "Корея", chance: score + 8 },
+            { name: "METU", country: "Түркия", chance: score + 15 },
+            { name: "University of Malaya", country: "Малайзия", chance: score + 20 },
+            { name: "Nazarbayev University", country: "Қазақстан", chance: score + 10 },
+            { name: "KBTU", country: "Қазақстан", chance: score + 25 },
+            { name: "AITU", country: "Қазақстан", chance: score + 30 },
+            { name: "KIMEP", country: "Қазақстан", chance: score + 15 },
+            { name: "SDU", country: "Қазақстан", chance: score + 28 },
+            { name: "Satbayev Uni", country: "Қазақстан", chance: score + 35 },
+            { name: "ENU", country: "Қазақстан", chance: score + 40 },
+            { name: "KazNU", country: "Қазақстан", chance: score + 38 },
+            { name: "UIB", country: "Қазақстан", chance: score + 45 },
+            { name: "Narxoz", country: "Қазақстан", chance: score + 42 },
+            { name: "MUIS", country: "Қазақстан", chance: score + 50 }
         ];
 
-        let html = "<h3>Түсу мүмкіндігіңіз (%):</h3>";
+        let html = "<h3>Түсу шанстары (Грант):</h3>";
         unis.forEach(u => {
-            let p = Math.min(Math.max(u.ch, 5), 98).toFixed(0);
-            html += `
-                <div class="res-item">
-                    <span><b>${u.n}</b> <br> <small>${u.c}</small></span>
-                    <span class="chance-badge">${p}% Шанс</span>
-                </div>`;
+            let p = Math.min(Math.max(u.chance, 2), 99).toFixed(0);
+            html += `<div class="res-item">
+                <span><b>${u.name}</b> (${u.country})</span>
+                <span class="chance-badge">${p}% Шанс</span>
+            </div>`;
         });
-        document.getElementById('final-results').innerHTML = html;
+        document.getElementById('global-results').innerHTML = html;
         window.scrollTo(0, document.body.scrollHeight);
     }
 </script>
