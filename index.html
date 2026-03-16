@@ -2,7 +2,7 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <title>SoulCare | Strict Grant Logic</title>
+    <title>SoulCare | Professional Admission System</title>
     <style>
         :root { --primary: #8b5cf6; --bg: #010409; --card: #0d1117; --yes: #238636; --no: #da3633; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; }
@@ -19,8 +19,7 @@
         .q-text { font-size: 20px; margin-bottom: 25px; display: block; color: white; }
         .circles { display: flex; justify-content: center; align-items: center; gap: 20px; }
         .circles input { display: none; }
-        .circle { border-radius: 50%; border: 3px solid #484f58; cursor: pointer; display: inline-block; }
-        .v-l { width: 55px; height: 55px; } .l { width: 40px; height: 40px; } .s { width: 28px; height: 28px; }
+        .circle { border-radius: 50%; border: 3px solid #484f58; cursor: pointer; display: inline-block; width: 45px; height: 45px; }
 
         input[value*="Y"]:checked + .circle { background: var(--yes); border-color: var(--yes); }
         input[value*="N"]:checked + .circle { background: var(--no); border-color: var(--no); }
@@ -29,78 +28,82 @@
         input, select { width: 100%; padding: 12px; border-radius: 8px; background: #010409; border: 1px solid #30363d; color: white; margin-bottom: 15px; box-sizing: border-box; }
         .btn-go { width: 100%; padding: 20px; background: #238636; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 18px; }
         
-        .res-item { background: #161b22; padding: 15px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; border: 1px solid #30363d; }
+        .res-item { background: #161b22; padding: 20px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #30363d; }
+        .status-tag { padding: 5px 10px; border-radius: 6px; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+        .status-accepted { background: rgba(35, 134, 54, 0.2); color: #3fb950; border: 1px solid #238636; }
+        .status-rejected { background: rgba(218, 54, 51, 0.2); color: #f85149; border: 1px solid #da3633; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>SoulCare Professional</h1>
+    <h1>SoulCare Admission Portal</h1>
     <div class="nav">
-        <button onclick="tab('mbti')">MBTI Тест (30 сұрақ)</button>
-        <button onclick="tab('grant')">Грант Есептеу</button>
+        <button onclick="tab('mbti')">1. MBTI Тест</button>
+        <button onclick="tab('grant')">2. Admission Decision</button>
     </div>
 </header>
 
 <div class="container">
     <section id="mbti" class="section active">
         <div class="card">
-            <h2 style="text-align:center">Тұлғалық психотип</h2>
+            <h2 style="text-align:center">Тұлғалық психотипті анықтау</h2>
             <div id="mbti-container"></div>
-            <button class="btn-go" onclick="calcMBTI()">Есептеу</button>
-            <div id="mbti-final"></div>
+            <button class="btn-go" onclick="calcMBTI()">Нәтижені сақтау</button>
         </div>
     </section>
 
     <section id="grant" class="section">
         <div class="card">
-            <h2>Академиялық Көрсеткіштер</h2>
+            <h2>Грантқа қабылдану жүйесі</h2>
             <div class="grid">
                 <div>
-                    <label>ҰБТ балы:</label> <input type="number" id="ubt" placeholder="0-140">
-                    <label>SAT балы:</label> <input type="number" id="sat" placeholder="400-1600">
-                    <label>IELTS:</label> <input type="number" id="ielts" step="0.5" placeholder="0-9">
-                    <label>GPA:</label> <input type="number" id="gpa" step="0.1" placeholder="0-5.0">
+                    <label>ҰБТ балы (0-140):</label> <input type="number" id="ubt" placeholder="120">
+                    <label>SAT балы (400-1600):</label> <input type="number" id="sat" placeholder="1300">
+                    <label>IELTS (0-9.0):</label> <input type="number" id="ielts" step="0.5" placeholder="6.5">
+                    <label>GPA (0-5.0):</label> <input type="number" id="gpa" step="0.1" placeholder="4.5">
                 </div>
                 <div>
-                    <label>Комбинация:</label>
-                    <select id="comb">
-                        <option>Физ-Мат</option><option>Инфо-Мат</option><option>Био-Хим</option>
-                        <option>Био-Гео</option><option>Гео-Мат</option><option>ДЖТ-Ағылшын</option>
+                    <label>Мамандық:</label>
+                    <select id="major">
+                        <option value="tech">IT / Инженерия (Analyst)</option>
+                        <option value="med">Медицина (Caregiver)</option>
+                        <option value="art">Өнер / Дизайн (Explorer)</option>
+                        <option value="biz">Бизнес / Құқық (Leader)</option>
                     </select>
+                    <label>МБТИ Типіңіз:</label>
+                    <input type="text" id="mbti-res-input" readonly style="color: var(--primary); font-weight:bold;">
                     <label>Волонтерлық (сағат):</label> <input type="number" id="vol" value="0">
-                    <label>Наградалар саны:</label> <input type="number" id="awards" value="0">
+                    <label>Наградалар:</label> <input type="number" id="awards" value="0">
                 </div>
             </div>
-            <button class="btn-go" style="background:#8b5cf6" onclick="calcGrant()">ШАНСТАРДЫ ТЕКСЕРУ</button>
-            <div id="grant-final" style="margin-top:25px;"></div>
+            <button class="btn-go" onclick="processAdmission()">Шешімді шығару</button>
+            <div id="final-results" style="margin-top:25px;"></div>
         </div>
     </section>
 </div>
 
 <script>
-    const questions = [
-        {q: "Жаңа адамдармен тез тіл табысасыз ба?", t: "EI"},
-        {q: "Нақты деректерге қарағанда, қиялға көбірек сенесіз бе?", t: "SN"},
-        {q: "Шешім қабылдағанда логика сезімнен маңызды ма?", t: "TF"},
-        {q: "Жұмысты бастамас бұрын нақты жоспар құрасыз ба?", t: "JP"},
-        {q: "Көпшілік ортада энергия жинайсыз ба?", t: "EI"},
-        {q: "Заттардың қалай жұмыс істейтінін білу қызық па?", t: "SN"},
-        {q: "Адамдардың көңіл-күйіне тез берілесіз бе?", t: "TF"},
-        {q: "Ережелер мен тәртіпті қатаң сақтайсыз ба?", t: "JP"}
+    const mbtiQs = [
+        {q: "Жаңа адамдармен оңай тіл табысамын", t: "EI"},
+        {q: "Нақты деректерге қарағанда интуицияға сенемін", t: "SN"},
+        {q: "Шешім қабылдағанда логика бірінші орында", t: "TF"},
+        {q: "Жұмыс орным әрқашан жинақы", t: "JP"}
     ];
-    while(questions.length < 30) { questions.push({...questions[questions.length%8], q: questions[questions.length%8].q + " (қосымша)"}); }
+    // 30 сұраққа толтыру
+    const questions = [];
+    for(let i=0; i<30; i++) { questions.push({...mbtiQs[i%4], q: mbtiQs[i%4].q + " (S-" + (i+1) + ")"}); }
 
     const box = document.getElementById('mbti-container');
     questions.forEach((q, i) => {
         box.innerHTML += `<div class="q-row"><span class="q-text">${i+1}. ${q.q}</span><div class="circles">
             <span style="color:var(--yes)">ИӘ</span>
-            <label><input type="radio" name="r${i}" value="${q.t[0]}3Y"><span class="circle v-l"></span></label>
-            <label><input type="radio" name="r${i}" value="${q.t[0]}1Y"><span class="circle l"></span></label>
-            <label><input type="radio" name="r${i}" value="0"><span class="circle s"></span></label>
-            <label><input type="radio" name="r${i}" value="${q.t[1]}1N"><span class="circle l"></span></label>
-            <label><input type="radio" name="r${i}" value="${q.t[1]}3N"><span class="circle v-l"></span></label>
+            <label><input type="radio" name="r${i}" value="${q.t[0]}3Y"><span class="circle"></span></label>
+            <label><input type="radio" name="r${i}" value="${q.t[0]}1Y"><span class="circle" style="width:35px; height:35px;"></span></label>
+            <label><input type="radio" name="r${i}" value="0"><span class="circle" style="width:25px; height:25px;"></span></label>
+            <label><input type="radio" name="r${i}" value="${q.t[1]}1N"><span class="circle" style="width:35px; height:35px;"></span></label>
+            <label><input type="radio" name="r${i}" value="${q.t[1]}3N"><span class="circle"></span></label>
             <span style="color:var(--no)">ЖОҚ</span></div></div>`;
     });
 
@@ -117,68 +120,50 @@
             if(v && v[0] !== '0') sc[v[0]] += parseInt(v[1]);
         }
         let res = (sc.E>=sc.I?'E':'I')+(sc.S>=sc.N?'S':'N')+(sc.T>=sc.F?'T':'F')+(sc.J>=sc.P?'J':'P');
-        document.getElementById('mbti-final').innerHTML = `<div class="card" style="margin-top:20px; border-color:var(--yes)"><h3>Типіңіз: ${res}</h3><button class="btn-go" onclick="tab('grant')">Грантқа өту</button></div>`;
+        document.getElementById('mbti-res-input').value = res;
+        alert("МБТИ типі сақталды: " + res);
+        tab('grant');
     }
 
-    function calcGrant() {
+    function processAdmission() {
         let ubt = parseInt(document.getElementById('ubt').value) || 0;
         let sat = parseInt(document.getElementById('sat').value) || 0;
         let ielts = parseFloat(document.getElementById('ielts').value) || 0;
-        let gpa = parseFloat(document.getElementById('gpa').value) || 0;
-        let vol = parseInt(document.getElementById('vol').value) || 0;
-        let awards = parseInt(document.getElementById('awards').value) || 0;
+        let mbti = document.getElementById('mbti-res-input').value;
+        let major = document.getElementById('major').value;
 
         const unis = [
-            // АҚШ (3)
-            {n:"Harvard University", l:"USA", minUbt:135, minSat:1550, minIelts:7.5},
-            {n:"Stanford University", l:"USA", minUbt:135, minSat:1500, minIelts:7.5},
-            {n:"MIT", l:"USA", minUbt:138, minSat:1570, minIelts:7.5},
-            // Корея (5)
-            {n:"KAIST", l:"Korea", minUbt:130, minSat:1450, minIelts:7.0},
-            {n:"Seoul National Uni", l:"Korea", minUbt:130, minSat:1400, minIelts:7.0},
-            {n:"Korea Uni", l:"Korea", minUbt:125, minSat:1350, minIelts:6.5},
-            {n:"Yonsei Uni", l:"Korea", minUbt:125, minSat:1350, minIelts:6.5},
-            {n:"Sungkyunkwan Uni", l:"Korea", minUbt:120, minSat:1300, minIelts:6.5},
-            // Қытай (3)
-            {n:"Tsinghua Uni", l:"China", minUbt:130, minSat:1450, minIelts:7.0},
-            {n:"Peking Uni", l:"China", minUbt:130, minSat:1450, minIelts:7.0},
-            {n:"Fudan Uni", l:"China", minUbt:120, minSat:1350, minIelts:6.5},
-            // Түркия (2)
-            {n:"METU", l:"Turkey", minUbt:110, minSat:1200, minIelts:6.0},
-            {n:"Bogazici Uni", l:"Turkey", minUbt:115, minSat:1250, minIelts:6.5},
-            // Жапония (2)
-            {n:"Uni of Tokyo", l:"Japan", minUbt:130, minSat:1450, minIelts:7.0},
-            {n:"Kyoto Uni", l:"Japan", minUbt:125, minSat:1400, minIelts:7.0},
-            // Еуропа (7)
-            {n:"Oxford", l:"UK", minUbt:135, minSat:1500, minIelts:7.5},
-            {n:"Cambridge", l:"UK", minUbt:135, minSat:1500, minIelts:7.5},
-            {n:"ETH Zurich", l:"Swiss", minUbt:130, minSat:1450, minIelts:7.0},
-            {n:"TU Munich", l:"Germany", minUbt:120, minSat:1300, minIelts:6.5},
-            {n:"Delft Uni", l:"NL", minUbt:120, minSat:1300, minIelts:6.5},
-            {n:"Sorbonne Uni", l:"France", minUbt:120, minSat:1300, minIelts:6.5},
-            {n:"KU Leuven", l:"Belgium", minUbt:115, minSat:1250, minIelts:6.5},
-            // Қазақстан
-            {n:"Nazarbayev Uni", l:"KZ", minUbt:130, minSat:1350, minIelts:6.5},
-            {n:"KBTU", l:"KZ", minUbt:120, minSat:0, minIelts:5.5},
-            {n:"AITU", l:"KZ", minUbt:115, minSat:0, minIelts:5.0},
-            {n:"KazNU", l:"KZ", minUbt:125, minSat:0, minIelts:5.0},
-            {n:"SDU", l:"KZ", minUbt:110, minSat:0, minIelts:5.5}
+            {n:"Harvard University", country:"USA", reqUbt:135, reqSat:1550, reqIelts:7.5, pref:"INTJ, ENTJ"},
+            {n:"Oxford University", country:"UK", reqUbt:135, reqSat:1500, reqIelts:7.5, pref:"INFJ, INTJ"},
+            {n:"KAIST", country:"Korea", reqUbt:130, reqSat:1450, reqIelts:7.0, pref:"INTP, ISTP"},
+            {n:"Tsinghua Uni", country:"China", reqUbt:130, reqSat:1450, reqIelts:7.0, pref:"ESTJ, ENTJ"},
+            {n:"Nazarbayev Uni", country:"KZ", reqUbt:125, reqSat:1350, reqIelts:6.5, pref:"ALL"},
+            {n:"KBTU", country:"KZ", reqUbt:115, reqSat:0, reqIelts:5.5, pref:"ALL"},
+            {n:"AITU", country:"KZ", reqUbt:110, reqSat:0, reqIelts:5.0, pref:"ALL"}
         ];
 
-        let h = "<h3>Грант Мүмкіндігі:</h3>";
+        let h = "<h3>Қабылдау комиссиясының шешімі:</h3>";
         unis.forEach(u => {
-            let ch = 0;
-            if(ubt >= u.minUbt) ch += 40; else ch += (ubt/u.minUbt)*30;
-            if(ielts >= u.minIelts) ch += 30; else ch += (ielts/u.minIelts)*20;
-            if(u.minSat > 0) { if(sat >= u.minSat) ch += 20; else ch += (sat/u.minSat)*10; } else ch += 20;
-            if(gpa >= 4.5) ch += 10;
-            ch += (vol * 0.05) + (awards * 2);
+            let isAccepted = (ubt >= u.reqUbt && ielts >= u.reqIelts);
+            if(u.reqSat > 0 && sat < u.reqSat) isAccepted = false;
+            
+            // MBTI сәйкестігі (Шансқа әсері)
+            let mbtiMatch = u.pref.includes(mbti) || u.pref === "ALL";
+            let chance = isAccepted ? (mbtiMatch ? 95 : 70) : (ubt > u.reqUbt - 10 ? 40 : 5);
 
-            let p = Math.min(Math.round(ch), 99);
-            let color = p > 70 ? "var(--yes)" : (p > 40 ? "#eab308" : "var(--no)");
-            h += `<div class="res-item"><span>${u.n} (${u.l})</span><b style="color:${color}">${p}%</b></div>`;
+            h += `<div class="res-item">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span><b>${u.n}</b> (${u.country})</span>
+                    <span class="status-tag ${isAccepted ? 'status-accepted' : 'status-rejected'}">
+                        ${isAccepted ? 'Accepted' : 'Rejected'}
+                    </span>
+                </div>
+                <div style="margin-top:10px; font-size:14px; color:#8b949e;">
+                    Түсу мүмкіндігі: ${chance}% | MBTI сәйкестігі: ${mbtiMatch ? 'Жоғары' : 'Орташа'}
+                </div>
+            </div>`;
         });
-        document.getElementById('grant-final').innerHTML = h;
+        document.getElementById('final-results').innerHTML = h;
     }
 </script>
 </body>
