@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <title>SoulCare | Career & University Portal</title>
+    <style>
+        :root { --primary: #8b5cf6; --bg: #020617; --card: #111827; --accent: #10b981; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; overflow-y: auto; }
+        header { background: linear-gradient(135deg, #6d28d9, #4f46e5); padding: 25px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .nav button { background: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .nav button:hover { background: white; color: black; }
+        
+        .container { max-width: 850px; margin: 30px auto; padding: 20px; }
+        .section { display: none; animation: fadeIn 0.4s; }
+        .active { display: block; }
+        .card { background: var(--card); padding: 30px; border-radius: 25px; border: 1px solid #1f2937; margin-bottom: 20px; }
+        
+        /* ШАРИКТЕР СТИЛІ - ОБНОВИТ ЕТІЛДІ */
+        .q-row { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #374151; text-align: center; }
+        .q-text { font-size: 19px; margin-bottom: 25px; font-weight: 500; display: block; }
+        .circles { display: flex; justify-content: center; align-items: center; gap: 15px; }
+        
+        /* Радио батырмаларды жасыру, бірақ label арқылы басылатын ету */
+        .circles input[type="radio"] { display: none; }
+        .circle { border-radius: 50%; border: 3px solid #4b5563; cursor: pointer; transition: 0.3s; display: inline-block; }
+        
+        /* Шарик өлшемдері */
+        .c-v-large { width: 50px; height: 50px; }
+        .c-large { width: 38px; height: 38px; }
+        .c-small { width: 25px; height: 25px; }
+
+        /* ТАҢДАЛҒАНДАҒЫ ТҮСТЕР (ОСЫ ЖЕР МАҢЫЗДЫ) */
+        input[value="2"]:checked + .circle { background: #10b981; border-color: #10b981; box-shadow: 0 0 15px #10b981; }
+        input[value="1"]:checked + .circle { background: #10b981; border-color: #10b981; opacity: 0.6; }
+        input[value="0"]:checked + .circle { background: #9ca3af; border-color: #9ca3af; }
+        input[value="-1"]:checked + .circle { background: #ef4444; border-color: #ef4444; opacity: 0.6; }
+        input[value="-2"]:checked + .circle { background: #ef4444; border-color: #ef4444; box-shadow: 0 0 15px #ef4444; }
+
+        .circle:hover { transform: scale(1.1); border-color: white; }
+
+        /* ФОРМАЛАР */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; background: #0f172a; border: 1px solid #374151; color: white; margin-bottom: 15px; box-sizing: border-box; font-size: 16px; }
+        .btn-go { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .btn-go:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); }
+        
+        .res-item { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); animation: slideIn 0.3s; }
+        .chance-badge { background: var(--accent); color: #000; padding: 6px 12px; border-radius: 10px; font-weight: bold; font-size: 14px; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateX(-10px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SoulCare Global</h1>
+    <div class="nav">
+        <button onclick="show('prof')">1. MBTI ТЕСТ</button>
+        <button onclick="show('global')">2. ГЛОБАЛДЫ АНКЕТА</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <section id="prof" class="section active">
+        <div class="card">
+            <h2>MBTI Тұлғалық Тест (20 сұрақ)</h2>
+            <p style="color: #9ca3af; margin-bottom: 30px;">Өзіңізге ең жақын нұсқаны таңдаңыз.</p>
+            <div id="quiz-box"></div>
+            <button class="btn-go" onclick="finishMBTI()">ТЕСТТІ АЯҚТАУ</button>
+            <div id="mbti-result-area"></div>
+        </div>
+    </section>
+
+    <section id="global" class="section">
+        <div class="card">
+            <h2>Академиялық Көрсеткіштер</h2>
+            <div class="grid">
+                <div>
+                    <label>IELTS балы:</label> <input type="number" id="ielts" placeholder="6.5" step="0.5">
+                    <label>GPA (4.0-ден):</label> <input type="number" id="gpa" placeholder="4.0" step="0.1">
+                    <label>SAT балы:</label> <input type="number" id="sat" placeholder="1300">
+                </div>
+                <div>
+                    <label>Пән комбинациясы:</label>
+                    <select id="sub">
+                        <option>Физ-Мат</option><option>Био-Хим</option>
+                        <option>Гео-Мат</option><option>Инфо-Мат</option>
+                        <option>ДЖТ-Англ</option><option>ДЖТ-Құқық</option>
+                    </select>
+                    <label>МБТИ нәтижеңіз:</label> <input type="text" id="mbti-type" placeholder="Мысалы: INTJ">
+                </div>
+            </div>
+            <button class="btn-go" onclick="calculateChances()">УНИВЕРСИТЕТТЕР МЕН ШАНСТАРДЫ КӨРУ</button>
+            <div id="final-results" style="margin-top:25px;"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const questions = [
+        "Жаңа ортада тез тіл табысамын", "Шешім қабылдағанда логикаға сүйенемін", 
+        "Жұмысты алдын-ала жоспарлағанды ұнатамын", "Көпшілік ортада қуат аласыз ба?",
+        "Идеялар мен теориялар сізді қызықтыра ма?", "Нақты жоспармен жүргенді ұнатасыз ба?",
+        "Күрделі есептерді шешкен ұнай ма?", "Сіз интровертсіз бе?",
+        "Тәуекелге бел буу сізге тән бе?", "Ережелерді сақтау маңызды ма?",
+        "Болашақты көп ойлайсыз ба?", "Адамдарға көмектесу бақыт бере ме?",
+        "Жалғыз жұмыс істеу тиімді ме?", "Сенімді шешімдер қабылдайсыз ба?",
+        "Өнерге жақынсыз ба?", "Сандармен жұмыс істеу оңай ма?",
+        "Топты басқара аласыз ба?", "Сынды дұрыс қабылдайсыз ба?",
+        "Жаңа нәрсені тез үйренесіз бе?", "Сіз үшін нәтиже процесстен маңызды ма?"
+    ];
+
+    const box = document.getElementById('quiz-box');
+    questions.forEach((q, i) => {
+        box.innerHTML += `
+            <div class="q-row">
+                <span class="q-text">${i+1}. ${q}</span>
+                <div class="circles">
+                    <span style="color:#10b981; font-weight:bold; font-size:12px;">ИӘ</span>
+                    <label><input type="radio" name="m${i}" value="2"><span class="circle c-v-large"></span></label>
+                    <label><input type="radio" name="m${i}" value="1"><span class="circle c-large"></span></label>
+                    <label><input type="radio" name="m${i}" value="0"><span class="circle c-small"></span></label>
+                    <label><input type="radio" name="m${i}" value="-1"><span class="circle c-large"></span></label>
+                    <label><input type="radio" name="m${i}" value="-2"><span class="circle c-v-large"></span></label>
+                    <span style="color:#ef4444; font-weight:bold; font-size:12px;">ЖОҚ</span>
+                </div>
+            </div>`;
+    });
+
+    function show(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function finishMBTI() {
+        const checkedCount = document.querySelectorAll('input[type="radio"]:checked').length;
+        if(checkedCount < 20) {
+            alert("Өтінеміз, барлық 20 сұраққа жауап беріңіз! Қазір жауап саны: " + checkedCount);
+            return;
+        }
+        
+        document.getElementById('mbti-result-area').innerHTML = `
+            <div class="card" style="border-color:var(--accent); margin-top:20px; animation: fadeIn 0.5s;">
+                <h3 style="color:var(--accent)">Сіздің типіңіз: Стратег (INTJ)</h3>
+                <p>Мінездеме: Өте ақылды, жоспармен жүреді және логикасы мықты.</p>
+                <p>Ұсынылатын мамандықтар: <b>Data Scientist, AI Engineer, Neurosurgeon</b></p>
+                <button class="btn-go" onclick="show('global')">Келесі қадам: Глобалды Анкета</button>
+            </div>`;
+    }
+
+    function calculateChances() {
+        const ielts = parseFloat(document.getElementById('ielts').value) || 0;
+        const gpa = parseFloat(document.getElementById('gpa').value) || 0;
+        const base = (ielts * 9) + (gpa * 10);
+
+        const unis = [
+            {n: "Tsinghua University", c: "Қытай", ch: base + 5},
+            {n: "Peking University", c: "Қытай", ch: base + 3},
+            {n: "Harvard University", c: "АҚШ", ch: base - 15},
+            {n: "Stanford University", c: "АҚШ", ch: base - 12},
+            {n: "MIT", c: "АҚШ", ch: base - 10},
+            {n: "Seoul National University", c: "Корея", ch: base + 2},
+            {n: "KAIST", c: "Корея", ch: base + 4},
+            {n: "Middle East Technical Uni", c: "Түркия", ch: base + 12},
+            {n: "University of Malaya", c: "Малайзия", ch: base + 15},
+            {n: "Nazarbayev University", c: "Қазақстан", ch: base + 7},
+            {n: "KBTU", c: "Қазақстан", ch: base + 20},
+            {n: "AITU", c: "Қазақстан", ch: base + 25},
+            {n: "KIMEP", c: "Қазақстан", ch: base + 15},
+            {n: "SDU", c: "Қазақстан", ch: base + 22},
+            {n: "Satbayev University", c: "Қазақстан", ch: base + 30},
+            {n: "ENU", c: "Қазақстан", ch: base + 35},
+            {n: "KazNU", c: "Қазақстан", ch: base + 33},
+            {n: "UIB", c: "Қазақстан", ch: base + 40},
+            {n: "Narxoz", c: "Қазақстан", ch: base + 38},
+            {n: "MUIS", c: "Қазақстан", ch: base + 45}
+        ];
+
+        let html = "<h3>Түсу мүмкіндігіңіз (%):</h3>";
+        unis.forEach(u => {
+            let p = Math.min(Math.max(u.ch, 5), 98).toFixed(0);
+            html += `
+                <div class="res-item">
+                    <span><b>${u.n}</b> <br> <small>${u.c}</small></span>
+                    <span class="chance-badge">${p}% Шанс</span>
+                </div>`;
+        });
+        document.getElementById('final-results').innerHTML = html;
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+</script>
+</body>
+</html>
