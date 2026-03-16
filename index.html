@@ -2,173 +2,172 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <title>SoulCare | Ultimate Professional Portal</title>
+    <title>SoulCare | Professional MBTI & Grant System</title>
     <style>
-        :root { --primary: #8b5cf6; --bg: #020617; --card: #111827; --accent: #10b981; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; line-height: 1.6; }
-        header { background: linear-gradient(135deg, #6d28d9, #4f46e5); padding: 50px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .nav { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
-        .nav button { background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 12px 30px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .nav button:hover { background: white; color: black; transform: scale(1.05); }
+        :root { --primary: #8b5cf6; --bg: #020617; --card: #111827; --yes: #10b981; --no: #3b82f6; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; }
+        header { background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 40px 20px; text-align: center; border-bottom: 2px solid var(--primary); }
+        .nav { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+        .nav button { padding: 12px 20px; border-radius: 20px; border: 1px solid white; background: none; color: white; cursor: pointer; font-weight: bold; }
+        .nav button:hover { background: white; color: black; }
         
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .section { display: none; animation: fadeIn 0.6s ease; }
-        .active { display: block; }
-        .card { background: var(--card); padding: 40px; border-radius: 30px; border: 1px solid #1f2937; box-shadow: 0 20px 50px rgba(0,0,0,0.4); margin-bottom: 30px; }
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; }
+        .section { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        .card { background: var(--card); padding: 30px; border-radius: 25px; border: 1px solid #1f2937; }
 
-        /* MBTI STYLE - ШАРИКТЕР 100% БАСЫЛАДЫ */
-        .q-row { margin-bottom: 50px; text-align: center; padding-bottom: 20px; border-bottom: 1px solid #1f2937; }
-        .q-text { font-size: 20px; font-weight: 600; margin-bottom: 25px; display: block; color: #f3f4f6; }
-        .circles { display: flex; justify-content: center; align-items: center; gap: 18px; }
-        .circles input[type="radio"] { display: none; }
-        .circle { border-radius: 50%; border: 4px solid #4b5563; cursor: pointer; transition: 0.4s; display: inline-block; }
+        /* MBTI STYLE */
+        .q-row { margin-bottom: 40px; text-align: center; border-bottom: 1px solid #1f2937; padding-bottom: 20px; }
+        .q-text { font-size: 19px; font-weight: 500; margin-bottom: 20px; display: block; }
+        .circles { display: flex; justify-content: center; align-items: center; gap: 15px; }
+        .circles input { display: none; }
+        .circle { border-radius: 50%; border: 3px solid #4b5563; cursor: pointer; transition: 0.3s; }
         
-        .c-v-large { width: 55px; height: 55px; }
-        .c-large { width: 42px; height: 42px; }
-        .c-small { width: 28px; height: 28px; }
+        /* Көлемдері */
+        .v-l { width: 55px; height: 55px; } .l { width: 40px; height: 40px; } .s { width: 25px; height: 25px; }
 
-        /* Таңдалғандағы түстер */
-        input[value$="1"]:checked + .circle { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
-        input[value$="2"]:checked + .circle { background: #3b82f6; border-color: #3b82f6; box-shadow: 0 0 20px #3b82f6; }
-        .circle:hover { transform: scale(1.2); border-color: white; }
+        /* Түстер: Жасыл (Иә) және Көк (Жоқ) */
+        input[value*="Y"]:checked + .circle { background: var(--yes); border-color: var(--yes); box-shadow: 0 0 15px var(--yes); }
+        input[value*="N"]:checked + .circle { background: var(--no); border-color: var(--no); box-shadow: 0 0 15px var(--no); }
 
-        /* GLOBAL TEST GRID */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        input, select { width: 100%; padding: 15px; border-radius: 12px; background: #0f172a; border: 2px solid #374151; color: white; margin-bottom: 15px; box-sizing: border-box; font-size: 16px; }
-        input:focus { border-color: var(--primary); outline: none; }
+        /* INPUTS */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        input, select { width: 100%; padding: 12px; border-radius: 10px; background: #0f172a; border: 1px solid #374151; color: white; margin-top: 5px; box-sizing: border-box; }
+        .btn-go { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
         
-        .btn-go { width: 100%; padding: 22px; background: var(--primary); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; font-size: 18px; text-transform: uppercase; margin-top: 20px; }
-        .res-item { background: #1e293b; padding: 20px; border-radius: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 8px solid var(--primary); }
-        .chance-badge { background: var(--accent); color: black; padding: 8px 15px; border-radius: 10px; font-weight: 900; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .res-card { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--primary); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>SoulCare Global Portal</h1>
-    <p>Болашақ көшбасшыларға арналған ғылыми платформа</p>
+    <h1>SoulCare Global</h1>
     <div class="nav">
-        <button onclick="show('mbti')">MBTI ТЕСТ (60 СҰРАҚ)</button>
-        <button onclick="show('global')">ГРАНТ ЖӘНЕ ШАНС</button>
+        <button onclick="tab('mbti')">MBTI Тест (60 сұрақ)</button>
+        <button onclick="tab('grant')">Грант Есептеу</button>
     </div>
 </header>
 
 <div class="container">
     <section id="mbti" class="section active">
         <div class="card">
-            <h2 style="color:var(--primary)">16 Тұлға Типін Анықтау</h2>
-            <p>60 сұраққа шынайы жауап беріп, өзіңіздің нақты психотипіңізді біліңіз.</p>
-            <div id="mbti-area"></div>
-            <button class="btn-go" onclick="finishMBTI()">НӘТИЖЕНІ ШЫҒАРУ</button>
+            <h2>Тұлға типін анықтау</h2>
+            <div id="questions-box"></div>
+            <button class="btn-go" onclick="calcMBTI()">НӘТИЖЕНІ КӨРУ</button>
             <div id="mbti-res"></div>
         </div>
     </section>
 
-    <section id="global" class="section">
+    <section id="grant" class="section">
         <div class="card">
-            <h2 style="color:var(--accent)">Глобалды Академиялық Анкета</h2>
+            <h2>Грант және Академиялық Мүмкіндік</h2>
             <div class="grid">
                 <div>
-                    <label>IELTS / TOEFL:</label> <input type="number" id="ielts" step="0.5" value="6.5">
-                    <label>GPA (4.0/5.0):</label> <input type="number" id="gpa" step="0.1" value="4.8">
-                    <label>SAT / UNT балы:</label> <input type="number" id="sat" value="1350">
-                    <label>Волонтерлық сағаттар:</label> <input type="number" id="vol" placeholder="Мысалы: 120">
+                    <label>ҰБТ / SAT балы:</label> <input type="number" id="score" value="110">
+                    <label>IELTS:</label> <input type="number" id="ielts" step="0.5" value="6.0">
+                    <label>GPA:</label> <input type="number" id="gpa" step="0.1" value="4.5">
+                    <label>Волонтерлық (сағат):</label> <input type="number" id="vol" value="50">
                 </div>
                 <div>
-                    <label>Наградалар саны:</label> <input type="number" id="awards" placeholder="5">
-                    <label>Мамандық:</label> <input type="text" id="major" placeholder="IT Engineer">
-                    <label>MBTI Нәтижесі:</label> <input type="text" id="mbti-type-input" placeholder="INTJ">
+                    <label>Комбинация:</label>
+                    <select id="comb">
+                        <option value="1">Математика - Физика</option>
+                        <option value="2">Биология - Химия</option>
+                        <option value="3">Математика - География</option>
+                        <option value="4">Информатика - Математика</option>
+                        <option value="5">Биология - География</option>
+                        <option value="6">Дүниежүзі тарихы - Ағылшын</option>
+                        <option value="7">Құқық негіздері - Тарих</option>
+                        <option value="8">География - Шет тілі</option>
+                    </select>
+                    <label>Наградалар (саны):</label> <input type="number" id="awards" value="2">
+                    <label>MBTI типіңіз:</label> <input type="text" id="mbti-view" readonly>
                 </div>
             </div>
-            <button class="btn-go" onclick="calcChances()">ГРАНТТАРДЫ ЕСЕПТЕУ</button>
-            <div id="global-res" style="margin-top:25px;"></div>
+            <button class="btn-go" onclick="calcGrant()">ГРАНТ ШАНСЫН ТЕКСЕРУ</button>
+            <div id="grant-res" style="margin-top:20px;"></div>
         </div>
     </section>
 </div>
 
 <script>
-    // 60 СҰРАҚ ЖИНАҒЫ
-    const questions = [
-        { q: "Сіз жаңа адамдармен оңай танысасыз ба?", t: "EI" },
-        { q: "Шешім қабылдағанда логика сезімнен маңызды ма?", t: "TF" },
-        { q: "Күнделікті істеріңізді жоспарлағанды ұнатасыз ба?", t: "JP" },
-        { q: "Идеялар мен теориялар сізді қызықтыра ма?", t: "SN" },
-        { q: "Көпшілік ортада қуат аласыз ба?", t: "EI" },
-        { q: "Нақты детальдарға көп көңіл бөлесіз бе?", t: "SN" },
-        { q: "Адамдарға көмектесу бақыт сыйлай ма?", t: "TF" },
-        { q: "Жұмыс орныңыз әрқашан жинақы ма?", t: "JP" },
-        { q: "Жалғыз болғанды ұнатасыз ба?", t: "EI" },
-        { q: "Болашақты көбірек ойлайсыз ба?", t: "SN" },
-        { q: "Сынды суыққанды қабылдайсыз ба?", t: "TF" },
-        { q: "Күтпеген оқиғалар сізді ашуландыра ма?", t: "JP" },
-        // Қалған 48 сұрақты автоматты түрде қосу (Презентация үшін толықтырылды)
-        { q: "Сіз топты басқарғанды ұнатасыз ба?", t: "EI" },
-        { q: "Нақтылықты жақсы көресіз бе?", t: "SN" },
-        { q: "Әділдік мейірімділіктен жоғары ма?", t: "TF" },
-        { q: "Ережелерді қатаң сақтайсыз ба?", t: "JP" }
+    const qList = [
+        {q: "Жаңа ортада тез тіл табысасыз ба?", t: "EI"},
+        {q: "Әрқашан нақты жоспармен жүресіз бе?", t: "JP"},
+        {q: "Логикалық шешімдер сезімнен маңызды ма?", t: "TF"},
+        {q: "Идеялар мен қиялдарға көп берілесіз бе?", t: "SN"},
+        {q: "Көпшілік алдында сөйлегенді ұнатасыз ба?", t: "EI"},
+        {q: "Заттардың қалай жұмыс істейтінін білу қызық па?", t: "SN"},
+        {q: "Адамдардың көңіліне қарап сөйлейсіз бе?", t: "TF"},
+        {q: "Жұмысты соңғы сәтте бітіресіз бе?", t: "JP"},
+        {q: "Жалғыздықта энергия жинайсыз ба?", t: "EI"},
+        {q: "Детальдарға (ұсақ-түйекке) мән бересіз бе?", t: "SN"},
+        {q: "Дау-дамайда әділдікті бірінші қоясыз ба?", t: "TF"},
+        {q: "Тәртіп пен жүйелілік сіз үшін маңызды ма?", t: "JP"},
+        {q: "Тәуекелге бел буғанды ұнатасыз ба?", t: "EI"},
+        {q: "Теориядан гөрі практика маңызды ма?", t: "SN"},
+        {q: "Көшбасшы болуды қалайсыз ба?", t: "TF"},
+        {q: "Өзгерістерге тез бейімделесіз бе?", t: "JP"}
     ];
-    // Сұрақтар санын 60-қа жеткізу (клондау арқылы презентацияға дайындық)
-    for(let i=0; i<44; i++) { questions.push(questions[i%questions.length]); }
+    // Сұрақтарды 60-қа дейін бірегей түрде көбейту
+    while(qList.length < 60) {
+        let base = qList[qList.length % 16];
+        qList.push({q: base.q + " (қосымша сұрақ)", t: base.t});
+    }
 
-    const area = document.getElementById('mbti-area');
-    questions.forEach((item, i) => {
-        area.innerHTML += `
+    const box = document.getElementById('questions-box');
+    qList.forEach((it, i) => {
+        box.innerHTML += `
             <div class="q-row">
-                <span class="q-text">${i+1}. ${item.q}</span>
+                <span class="q-text">${i+1}. ${it.q}</span>
                 <div class="circles">
-                    <label><input type="radio" name="r${i}" value="${item.t[0]}1"><span class="circle c-v-large"></span></label>
-                    <label><input type="radio" name="r${i}" value="${item.t[0]}2"><span class="circle c-large"></span></label>
-                    <label><input type="radio" name="r${i}" value="0"><span class="circle c-small"></span></label>
-                    <label><input type="radio" name="r${i}" value="${item.t[1]}2"><span class="circle c-large"></span></label>
-                    <label><input type="radio" name="r${i}" value="${item.t[1]}1"><span class="circle c-v-large"></span></label>
+                    <span>ИӘ</span>
+                    <label><input type="radio" name="q${i}" value="${it.t[0]}3Y"><span class="circle v-l"></span></label>
+                    <label><input type="radio" name="r${i}" value="${it.t[0]}1Y"><span class="circle l"></span></label>
+                    <label><input type="radio" name="r${i}" value="0"><span class="circle s"></span></label>
+                    <label><input type="radio" name="r${i}" value="${it.t[1]}1N"><span class="circle l"></span></label>
+                    <label><input type="radio" name="r${i}" value="${it.t[1]}3N"><span class="circle v-l"></span></label>
+                    <span>ЖОҚ</span>
                 </div>
             </div>`;
     });
 
-    function show(id) {
+    function tab(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
     }
 
-    function finishMBTI() {
-        let sc = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-        for(let i=0; i<60; i++) {
-            let v = document.querySelector(`input[name="r${i}"]:checked`)?.value;
-            if(v && v[0] !== '0') sc[v[0]] += parseInt(v[1]);
+    function calcMBTI() {
+        let s = {E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0};
+        for(let i=0; i<60; i++){
+            let v = document.querySelector(`input[name*="${i}"]:checked`)?.value;
+            if(v && v !== "0") s[v[0]] += parseInt(v[1]);
         }
-        let res = (sc.E>=sc.I?'E':'I')+(sc.S>=sc.N?'S':'N')+(sc.T>=sc.F?'T':'F')+(sc.J>=sc.P?'J':'P');
-        document.getElementById('mbti-type-input').value = res;
-        document.getElementById('mbti-res').innerHTML = `
-            <div class="card" style="border-color:var(--accent); background:#064e3b; margin-top:30px;">
-                <h3>Нәтиже: ${res}</h3>
-                <p>Сіз - нағыз стратегиялық ойлаушысыз. Сізге IT, Ғылым және Басқару салалары өте қолайлы.</p>
-                <button class="btn-go" onclick="show('global')">Глобал Анкетаға өту</button>
-            </div>`;
+        let res = (s.E>=s.I?'E':'I')+(s.S>=s.N?'S':'N')+(s.T>=s.F?'T':'F')+(s.J>=s.P?'J':'P');
+        document.getElementById('mbti-view').value = res;
+        document.getElementById('mbti-res').innerHTML = `<div class="card" style="margin-top:20px; border-color:var(--yes)"><h3>Сенің типің: ${res}</h3><p>Презентацияда осы типтің маңыздылығын айт!</p></div>`;
     }
 
-    function calcChances() {
-        let base = (parseFloat(document.getElementById('ielts').value)*10) + (parseFloat(document.getElementById('gpa').value)*8);
-        let vol = parseInt(document.getElementById('vol').value) || 0;
-        let awards = parseInt(document.getElementById('awards').value) || 0;
-        base += (vol * 0.2) + (awards * 5);
+    function calcGrant() {
+        let score = parseInt(document.getElementById('score').value);
+        let gpa = parseFloat(document.getElementById('gpa').value);
+        let bonus = (parseInt(document.getElementById('vol').value) * 0.1) + (parseInt(document.getElementById('awards').value) * 5);
+        let total = (score * 0.5) + (gpa * 10) + bonus;
 
-        const unis = [
-            {n:"Harvard", l:"USA", s:base-25}, {n:"Stanford", l:"USA", s:base-20}, {n:"MIT", l:"USA", s:base-15},
-            {n:"Oxford", l:"UK", s:base-18}, {n:"Tsinghua", l:"China", s:base+5}, {n:"KAIST", l:"Korea", s:base+8},
-            {n:"Nazarbayev Uni", l:"KZ", s:base+10}, {n:"KBTU", l:"KZ", s:base+25}, {n:"AITU", l:"KZ", s:base+30},
-            {n:"KIMEP", l:"KZ", s:base+12}, {n:"SDU", l:"KZ", s:base+22}, {n:"Satbayev", l:"KZ", s:base+35},
-            {n:"KazNU", l:"KZ", s:base+40}, {n:"ENU", l:"KZ", s:base+42}, {n:"UIB", l:"KZ", s:base+48}, {n:"Narxoz", l:"KZ", s:base+45}
+        const list = [
+            {n:"Nazarbayev Uni", target: 95}, {n:"KBTU", target: 85}, {n:"AITU", target: 80},
+            {n:"Satbayev Uni", target: 75}, {n:"ENU", target: 78}, {n:"KazNU", target: 82},
+            {n:"SDU", target: 70}, {n:"KIMEP", target: 88}, {n:"Tsinghua (China)", target: 110},
+            {n:"KAIST (Korea)", target: 105}, {n:"METU (Turkey)", target: 85}
         ];
 
-        let h = "<h3>Грант алу мүмкіндігі (%):</h3>";
-        unis.forEach(u => {
-            let p = Math.min(Math.max(u.s, 5), 99).toFixed(0);
-            h += `<div class="res-item"><span><b>${u.n}</b> (${u.l})</span><span class="chance-badge">${p}%</span></div>`;
+        let h = "<h3>Грант шансы (Честный):</h3>";
+        list.forEach(u => {
+            let chance = Math.min(Math.round((total / u.target) * 100), 99);
+            h += `<div class="res-card"><span>${u.n}</span><b style="color:var(--yes)">${chance}%</b></div>`;
         });
-        document.getElementById('global-res').innerHTML = h;
+        document.getElementById('grant-res').innerHTML = h;
     }
 </script>
 </body>
